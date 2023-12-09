@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Adrian's Pizza</title>
+      <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+      <style>
+         body {
+         font-family: Arial, sans-serif;
+         background-image: url('images/pizza1.jpeg');
+         background-size: cover;
+         background-repeat: no-repeat;
+         background-attachment: fixed;
+         margin: 0;
+         padding: 0;
+         }
+         h1 {
+         text-align: center;
+         color: #ffffff;
+         font-family: cursive;
+         font-size: 80px;
+         font-weight: bold;
+         margin-bottom: -40px;
+         }
+         p {
+         text-align: center;
+         color: #ffffff;
+         font-family: cursive;
+         font-size: 30px;
+         font-weight: bold;
+         }
+         #pizzaForm {
+         max-width: 400px;
+         margin: 0 auto;
+         background-color: rgba(255, 255, 255, 0.9);
+         padding: 30px 30px 30px 10px;
+         border-radius: 10px;
+         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+         }
+         label {
+         display: block;
+         margin-bottom: 5px;
+         font-weight: bold;
+         }
+         input[type="text"],
+         input[type="tel"],
+         select {
+         width: 100%;
+         padding: 10px;
+         margin-bottom: 15px;
+         border: 1px solid #ccc;
+         border-radius: 5px;
+         }
+         input[type="checkbox"] {
+         margin-right: 5px;
+         }
+         .hidden {
+         display: none;
+         }
+         #orderButton {
+         background-color: #ff6600;
+         color: #fff;
+         border: none;
+         padding: 10px 20px;
+         font-weight: bold;
+         cursor: pointer;
+         border-radius: 5px; 
+         }
+         #orderButton:hover {
+         background-color: #ff3300;
+         }
+         #changeBackgroundButton {
+         background-color: #ff6600;
+         color: #fff;
+         border: none;
+         padding: 10px 20px;
+         font-weight: bold;
+         cursor: pointer;
+         display: block;
+         margin: 0 auto;
+         text-align: center;
+         border-radius: 5px;
+         }
+      </style>
+   </head>
+   <body>
+      <h1>Adrian's Pizza</h1>
+      <p>Please place an order via the form below. We are open 24/7!</p>
+      <form id="pizzaForm">
+         <label for="name">Name:</label>
+         <input type="text" id="name" autocomplete="off"><br>
+         <label for="phone">Phone Number:</label>
+         <input type="tel" id="phone" autocomplete="off"><br>
+         <label for="pizzaSize">Pizza Size:</label>
+         <select id="pizzaSize">
+            <option value="" disabled selected>Select a size</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+         </select>
+         <br>
+         <label for="toppings">Select Toppings:</label>
+         <input type="checkbox" name="topping" value="pepperoni" autocomplete="off"> Pepperoni<br>
+         <input type="checkbox" name="topping" value="mushrooms" autocomplete="off"> Mushrooms<br>
+         <input type="checkbox" name="topping" value="sausage" autocomplete="off"> Sausage<br>
+         <input type="checkbox" name="topping" value="pineapple" autocomplete="off"> Pineapple<br>
+         <input type="checkbox" name="topping" value="ham" autocomplete="off"> Ham<br>
+         <input type="checkbox" name="topping" value="onions" autocomplete="off"> Onions<br><br>
+         <label for="delivery">Delivery:</label>
+         <input type="radio" name="deliveryOption" value="yes" id="deliveryYes" autocomplete="off"> Yes
+         <input type="radio" name="deliveryOption" value="no" id="deliveryNo" checked> No<br>
+         <div id="deliveryAddress" class="hidden">
+            <label for="address"><br>Delivery Address:</label>
+            <input type="text" id="address" autocomplete="off">
+         </div>
+         <br>
+         <button type="button" id="orderButton">Place Order</button>
+      </form>
+      <br><button id="changeBackgroundButton">Change Background</button>
+      <script>
+         var pizzaForm = document.getElementById('pizzaForm');
+         var orderButton = document.getElementById('orderButton');
+         var deliveryOptionYes = document.getElementById('deliveryYes');
+         var deliveryOptionNo = document.getElementById('deliveryNo');
+         var deliveryAddress = document.getElementById('deliveryAddress');
+         var changeBackgroundButton = document.getElementById('changeBackgroundButton');
+         var backgroundImages = [
+             'images/pizza2.jpeg',
+             'images/pizza3.jpeg',
+             'images/pizza4.jpeg',
+         ];
+         var currentBackgroundIndex = 0;
+         
+         // function to change the background image
+         function changeBackgroundImage() {
+             document.body.style.backgroundImage = 'url(' + backgroundImages[currentBackgroundIndex] + ')';
+         
+             // increment the index to cycle through the images
+             currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundImages.length;
+         }
+         
+         // add an event listener to the change background button
+         changeBackgroundButton.addEventListener('click', function () {
+             changeBackgroundImage();
+         });
+         
+         //add an event listener for delivery
+          deliveryOptionYes.addEventListener('change', function () {
+         if (deliveryOptionYes.checked) {
+         deliveryAddress.classList.remove('hidden');
+         }
+         });
+          
+         //add an event listener for takeout
+         deliveryOptionNo.addEventListener('change', function () {
+         if (deliveryOptionNo.checked) {
+         deliveryAddress.classList.add('hidden');
+         }
+         });
+          
+         // add an event listener for the order form
+         orderButton.addEventListener('click', function () {
+             var name = document.getElementById('name').value;
+             var phone = document.getElementById('phone').value;
+             var size = document.getElementById('pizzaSize').value;
+             var selectedToppings = document.querySelectorAll('input[name="topping"]:checked');
+             var toppings = Array.from(selectedToppings).map(function (topping) {
+                 return topping.value;
+             }).join(', ');
+             var deliveryOption = document.querySelector('input[name="deliveryOption"]:checked').value;
+             var address = deliveryOption === 'yes' ? document.getElementById('address').value : '';
+         
+         // pizza form field validation
+         var emptyFields = [];
+         
+         if (!name) {
+         emptyFields.push('Please enter a name.');
+         } else if (!/^[A-Za-z\s]+$/.test(name)) {
+         emptyFields.push('Please enter a valid name.');
+         }
+         
+         if (!phone) {
+         emptyFields.push('Please enter a phone number.');
+         } else if (!/^\d{10}$/.test(phone)) {
+         emptyFields.push('Please enter a valid phone number.');
+         }
+         
+         if (!size) {
+         emptyFields.push('Please select a pizza size.');
+         }
+         
+         if (selectedToppings.length === 0) {
+         emptyFields.push('Please select pizza toppings.');
+         }
+         
+         if (deliveryOptionYes.checked && !address) {
+         emptyFields.push('Please enter a valid delivery address.');
+         }
+         
+         if (emptyFields.length > 0) {
+         alert('The following fields require attention!\n ' + emptyFields.join('\n '));
+         return;
+         }
+         
+             // save order summary data in session storage
+             var orderSummaryData = {
+                 name: name,
+                 phone: phone,
+                 size: size,
+                 toppings: toppings,
+                 deliveryOption: deliveryOption,
+                 address: address || 'n/a',
+             };
+             sessionStorage.setItem('orderSummaryData', JSON.stringify(orderSummaryData));
+         
+             // redirect to the order summary page
+             window.location.href = 'orderSummary.html';
+         });
+      </script>
+   </body>
+</html>
