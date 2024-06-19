@@ -1,6 +1,6 @@
 # JavaScript (Full Stack Development)
 
-### This is my final project for the JavaScript (Full Stack Web Development) course offered through NYU's School of Professional Studies.
+This is my final project for the JavaScript (Full Stack Web Development) course offered through NYU's School of Professional Studies.
 
 The requirements for the project are:
 - the use of the document object model to change element content or style
