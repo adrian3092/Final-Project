@@ -10,3 +10,11 @@ The requirements for the project are:
 - the use of client side cookies or Web Storage to save data
 - access previously saved data and display on a different page
 - some use of DHTML
+---
+Main Page
+
+![Main Page](https://i.ibb.co/1TKQRHq/main.png)
+
+Order Summary Page
+
+![Order Summary](https://i.ibb.co/DMkmSPF/order-Summary.png)
